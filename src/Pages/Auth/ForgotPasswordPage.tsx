@@ -3,10 +3,10 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router";
 import { Mail, ArrowLeft } from "lucide-react";
-import AuthFormLayout from "./AuthFormLayout";
-import FormInput from "./FormInput";
-import AuthButton from "../Auth/AuthButton";
-import { forgotPasswordAPI } from "../../Services/Auth";
+import AuthFormLayout from "../../Components/Auth/AuthFormLayout";
+import FormInput from "../../Components/Auth/FormInput";
+import AuthButton from "../../Components/Auth/AuthButton";
+import { forgotPasswordAPI } from "../../Services/api";
 import toast from "react-hot-toast";
 
 export default function ForgotPage() {
@@ -71,13 +71,15 @@ export default function ForgotPage() {
                     <AuthButton loading={loading}>Send Verification Code</AuthButton>
                 </form>
 
-                <div className="text-center mt-6 pt-6 border-t border-gray-100">
+                <div className="mt-8 pt-6 border-t border-gray-100 flex justify-center">
                     <button
+                        type="button"
                         onClick={() => navigate("/login")}
-                        className="text-blue-600 font-semibold hover:text-blue-500 transition-colors flex items-center justify-center gap-2"
+                        className="group relative inline-flex items-center justify-center gap-2 px-8 py-3 text-sm font-bold text-gray-700 bg-white hover:bg-gray-50 border border-gray-200 rounded-xl transition-all duration-300 hover:shadow-lg hover:border-gray-300 active:scale-95 overflow-hidden"
                     >
-                        <ArrowLeft className="w-4 h-4" />
-                        Back to Login
+                        <div className="absolute inset-0 bg-gradient-to-r from-blue-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <ArrowLeft className="w-4 h-4 text-gray-400 group-hover:text-blue-600 group-hover:-translate-x-1 transition-all duration-300 relative z-10" />
+                        <span className="relative z-10 group-hover:text-blue-700 transition-colors duration-300">Back to Login</span>
                     </button>
                 </div>
             </motion.div>

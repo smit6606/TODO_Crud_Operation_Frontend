@@ -1,10 +1,10 @@
 import { createBrowserRouter } from "react-router";
 import App from "../App";
-import AuthPage from "../Components/Auth/AuthPage";
+import AuthPage from "../Pages/Auth/AuthPage";
 import HomePage from "../Pages/Home/HomePage";
-import ProtectedRoute from "../Components/common/ProtectedRoute";
-import PublicRoute from "../Components/common/PublicRoute";
-import NotFound from "../Components/common/NotFound";
+import ProtectedRoute from "./ProtectedRoute";
+import PublicRoute from "./PublicRoute";
+import NotFound from "../Pages/NotFoundPage";
 
 export const router = createBrowserRouter([
     {
@@ -12,14 +12,49 @@ export const router = createBrowserRouter([
         Component: App,
         children: [
             {
-                // PROTECTED: Only authenticated users can see the Home page.
-                // If not authenticated, ProtectedRoute bounces them to /login
+                path: "/",
+                Component: HomePage,
+            },
+            {
+                path: "/about",
+                Component: (await import("../Pages/About/AboutPage")).default,
+            },
+            {
+                path: "/services",
+                Component: (await import("../Pages/Services/ServicesPage")).default,
+            },
+            {
+                path: "/pricing",
+                Component: (await import("../Pages/Home/PricingPage")).default,
+            },
+            {
+                path: "/contact",
+                Component: (await import("../Pages/Contact/ContactPage")).default,
+            },
+            {
+                // PROTECTED: Only authenticated users can see these pages.
                 Component: ProtectedRoute,
                 children: [
                     {
-                        path: "/",
-                        Component: HomePage,
+                        path: "/todos",
+                        Component: (await import("../Pages/Todos/TodoListPage")).default,
                     },
+                    {
+                        path: "/todos/new",
+                        Component: (await import("../Pages/Todos/AddTodoPage")).default,
+                    },
+                    {
+                        path: "/todos/:id/edit",
+                        Component: (await import("../Pages/Todos/EditTodoPage")).default,
+                    },
+                    {
+                        path: "/profile",
+                        Component: (await import("../Pages/Profile/ProfilePage")).default,
+                    },
+                    {
+                        path: "/users",
+                        Component: (await import("../Pages/Users/UsersPage")).default,
+                    }
                 ]
             },
             {

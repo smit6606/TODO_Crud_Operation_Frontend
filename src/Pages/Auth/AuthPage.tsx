@@ -1,5 +1,5 @@
 import { useLocation } from "react-router";
-import AuthLeftHero from "./AuthLeftHero";
+import AuthLeftHero from "../../Components/Auth/AuthLeftHero";
 import LoginPage from "./LoginPage";
 import SignUpPage from "./SignUpPage";
 import ForgotPage from "./ForgotPasswordPage";
@@ -13,7 +13,7 @@ export default function AuthPage() {
   return (
     <div className="min-h-screen w-full flex bg-white font-inter overflow-hidden">
       {/* LEFT HERO - 40% - Fixed & Non-scrollable */}
-      <div className="hidden lg:flex lg:w-2/5 fixed left-0 top-0 h-screen">
+      <div className="hidden lg:flex lg:w-2/5 fixed left-0 top-16 h-[calc(100vh-64px)]">
         <AuthLeftHero />
       </div>
 

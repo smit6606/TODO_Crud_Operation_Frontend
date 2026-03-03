@@ -3,28 +3,69 @@ import { motion } from "framer-motion";
 import { useState, useRef, useEffect } from "react";
 import { KeyRound, ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router";
-import AuthFormLayout from "./AuthFormLayout";
-import AuthButton from "../Auth/AuthButton";
-import { verifyOtpAPI, forgotPasswordAPI } from "../../Services/Auth";
+import AuthFormLayout from "../../Components/Auth/AuthFormLayout";
+import AuthButton from "../../Components/Auth/AuthButton";
+import { verifyOtpAPI, forgotPasswordAPI } from "../../Services/api";
 import toast from "react-hot-toast";
 
 export default function VerifyOtpPage() {
     const [otp, setOtp] = useState(["", "", "", "", "", ""]);
     const [loading, setLoading] = useState<boolean | number>(false);
-    const [timeLeft, setTimeLeft] = useState(60); // 60 seconds cooldown
+    const [timeLeft, setTimeLeft] = useState(60); // 60 seconds cooldown for resend
+    const [verifyCooldown, setVerifyCooldown] = useState(0); // Lockout timer for Verify button
+    const [isInvalidated, setIsInvalidated] = useState(false);
     const inputsRef = useRef<(HTMLInputElement | null)[]>([]);
     const navigate = useNavigate();
 
-    // Timer logic
+    const displayIdentifier = () => {
+        const email = sessionStorage.getItem("reset_email") || "";
+        if (!email.includes("@")) return email;
+        const [localPart, domain] = email.split("@");
+        if (localPart.length <= 6) return email; // fallback
+        const firstThree = localPart.substring(0, 3);
+        const lastThree = localPart.substring(localPart.length - 3);
+        const maskedChars = "*".repeat(localPart.length - 6);
+        return `${firstThree}${maskedChars}${lastThree}@${domain}`;
+    };
+
+    const handleTryAnotherWay = async () => {
+        if (timeLeft > 0) return; // Prevent resend if timer is still ticking
+
+        const email = sessionStorage.getItem("reset_email");
+        if (!email) {
+            toast.error("Session expired, please restart password reset");
+            navigate("/forgot");
+            return;
+        }
+
+        try {
+            await forgotPasswordAPI({ identifier: email, sendMethod: "phone" });
+            toast.success("OTP sent via SMS text message");
+            setTimeLeft(60);
+            setIsInvalidated(false);
+            setOtp(["", "", "", "", "", ""]);
+        } catch (error: any) {
+            toast.error(error.response?.data?.message || "Failed to send SMS OTP");
+        }
+    };
+
+    // Timer logic for Resend OTP
     useEffect(() => {
         if (timeLeft <= 0) return;
-
         const timerId = setInterval(() => {
             setTimeLeft((prev) => prev - 1);
         }, 1000);
-
         return () => clearInterval(timerId);
     }, [timeLeft]);
+
+    // Timer logic for Verify OTP Lockout
+    useEffect(() => {
+        if (verifyCooldown <= 0) return;
+        const timerId = setInterval(() => {
+            setVerifyCooldown((prev) => prev - 1);
+        }, 1000);
+        return () => clearInterval(timerId);
+    }, [verifyCooldown]);
 
     const handleChange = (value: string, index: number) => {
         if (!/^\d*$/.test(value)) return;
@@ -47,6 +88,12 @@ export default function VerifyOtpPage() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+
+        if (otp.some(digit => digit === "")) {
+            toast.error("6-Digit Verification Code is required");
+            return;
+        }
+
         const otpCode = otp.join("");
         const email = sessionStorage.getItem("reset_email");
 
@@ -65,8 +112,28 @@ export default function VerifyOtpPage() {
                 navigate("/change-password");
             }
         } catch (error: any) {
-            const errorMsg = error.response?.data?.message || "Invalid OTP";
+            const backendMsg = error.response?.data?.message;
+            const fallbackMsg = error.message === 'Network Error' ? "Cannot connect to server" : "Invalid OTP";
+            const errorMsg = backendMsg || fallbackMsg;
+
             toast.error(errorMsg);
+
+            // Progressive restriction logic binding
+            if (errorMsg.includes("locked for")) {
+                const match = errorMsg.match(/locked for (\d+) (seconds|minutes|hours)/);
+                if (match) {
+                    const amount = parseInt(match[1]);
+                    const unit = match[2];
+                    let totalSeconds = amount;
+                    if (unit === 'minutes') totalSeconds = amount * 60;
+                    if (unit === 'hours') totalSeconds = amount * 3600;
+
+                    setVerifyCooldown(totalSeconds);
+                    setIsInvalidated(true);
+                }
+            } else if (errorMsg.includes("invalidated") || errorMsg.includes("Too many") || errorMsg.includes("locked")) {
+                setIsInvalidated(true);
+            }
         } finally {
             setLoading(false);
         }
@@ -86,6 +153,8 @@ export default function VerifyOtpPage() {
             await forgotPasswordAPI({ identifier: email, sendMethod: "email" });
             toast.success("OTP resent to your email");
             setTimeLeft(60); // Reset timer to 60s
+            setIsInvalidated(false); // Enable the verify button again
+            setOtp(["", "", "", "", "", ""]); // Clear previous OTP
         } catch (error: any) {
             toast.error(error.response?.data?.message || "Failed to resend OTP");
         }
@@ -109,8 +178,8 @@ export default function VerifyOtpPage() {
                 <h1 className="text-2xl font-bold text-gray-900 mb-2">
                     Verify Your Email
                 </h1>
-                <p className="text-gray-500 text-sm">
-                    Enter the 6-digit code sent to your email
+                <p className="text-gray-500 text-sm font-medium">
+                    Enter the 6-digit code sent to {displayIdentifier()}
                 </p>
             </motion.div>
 
@@ -148,7 +217,9 @@ export default function VerifyOtpPage() {
                         </div>
                     </motion.div>
 
-                    <AuthButton loading={loading}>Verify Code</AuthButton>
+                    <AuthButton loading={loading} disabled={isInvalidated || verifyCooldown > 0}>
+                        Verify Code
+                    </AuthButton>
                 </form>
 
                 <motion.div
@@ -157,18 +228,31 @@ export default function VerifyOtpPage() {
                     transition={{ delay: 0.6 }}
                     className="text-center mt-6 space-y-3"
                 >
-                    <p className="text-gray-600 text-sm">
-                        Didn't receive the code?{" "}
-                        <button
-                            type="button"
-                            onClick={handleResend}
-                            disabled={timeLeft > 0}
-                            className={`font-semibold transition-colors ${timeLeft > 0 ? "text-gray-400 cursor-not-allowed" : "text-blue-600 hover:text-blue-500"
-                                }`}
-                        >
-                            {timeLeft > 0 ? `Resend OTP in ${timeLeft}s` : "Resend OTP"}
-                        </button>
-                    </p>
+                    <div className="text-gray-600 text-sm flex flex-col gap-2">
+                        <div>
+                            Didn't receive the code?{" "}
+                            <button
+                                type="button"
+                                onClick={handleResend}
+                                disabled={timeLeft > 0}
+                                className={`font-semibold transition-colors ${timeLeft > 0 ? "text-gray-400 cursor-not-allowed" : "text-blue-600 hover:text-blue-500"
+                                    }`}
+                            >
+                                {timeLeft > 0 ? `Resend OTP in ${timeLeft}s` : "Resend OTP"}
+                            </button>
+                        </div>
+                        <div>
+                            <button
+                                type="button"
+                                onClick={handleTryAnotherWay}
+                                disabled={timeLeft > 0}
+                                className={`font-semibold transition-colors ${timeLeft > 0 ? "text-gray-400 cursor-not-allowed" : "text-blue-600 hover:text-blue-500"
+                                    }`}
+                            >
+                                Try another way (SMS)
+                            </button>
+                        </div>
+                    </div>
                     <button
                         type="button"
                         onClick={() => navigate("/forgot")}

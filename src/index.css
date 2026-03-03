@@ -1,25 +1,89 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Playfair+Display:wght@600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap");
 @import "tailwindcss";
 
-/* ---------------------------
-   Custom components & utilities
-   --------------------------- */
+@theme {
+  /* Define custom variables to hook into Tailwind utilities */
+  --color-brand-primary: var(--color-brand-primary);
+  --color-brand-hover: var(--color-brand-hover);
+  
+  --color-bg-base: var(--color-bg-base);
+  --color-bg-surface: var(--color-bg-surface);
+  --color-bg-elevated: var(--color-bg-elevated);
+
+  --color-text-base: var(--color-text-base);
+  --color-text-muted: var(--color-text-muted);
+  --color-text-inverted: var(--color-text-inverted);
+
+  --color-border-subtle: var(--color-border-subtle);
+  --color-border-strong: var(--color-border-strong);
+}
+
+@layer base {
+  :root {
+    /* Brand Colors (Professional Blue) */
+    --color-brand-primary: #0284c7; /* Sky 600 */
+    --color-brand-hover: #0369a1;   /* Sky 700 */
+
+    /* Light Mode Variables */
+    --color-bg-base: #f8fafc;       /* Slate 50 */
+    --color-bg-surface: #ffffff;    /* White */
+    --color-bg-elevated: #ffffff;   /* White */
+    
+    --color-text-base: #0f172a;     /* Slate 900 */
+    --color-text-muted: #64748b;    /* Slate 500 */
+    --color-text-inverted: #ffffff; /* White */
+    
+    --color-border-subtle: #e2e8f0; /* Slate 200 */
+    --color-border-strong: #cbd5e1; /* Slate 300 */
+  }
+  .dark {
+    /* Brand Colors (Professional Blue - tuned for dark mode) */
+    --color-brand-primary: #3b82f6; /* Blue 500 */
+    --color-brand-hover: #60a5fa;   /* Blue 400 */
+
+    /* Premium Dark Mode Variables (Deep Zinc) */
+    --color-bg-base: #09090b;       /* Zinc 950 */
+    --color-bg-surface: #18181b;    /* Zinc 900 */
+    --color-bg-elevated: #27272a;   /* Zinc 800 */
+    
+    --color-text-base: #fafafa;     /* Zinc 50 */
+    --color-text-muted: #a1a1aa;    /* Zinc 400 */
+    --color-text-inverted: #09090b; /* Zinc 950 */
+    
+    --color-border-subtle: #27272a; /* Zinc 800 */
+    --color-border-strong: #3f3f46; /* Zinc 700 */
+  }
+
+  body {
+    @apply bg-[var(--color-bg-base)] text-[var(--color-text-base)] antialiased transition-colors duration-200;
+  }
+}
+
 @layer components {
     .input-clean {
-        @apply w-full border-b border-gray-200 bg-transparent py-2 px-0 text-gray-800 placeholder:text-gray-400 outline-none transition-all;
-        caret-color: rgb(14 165 233);
+        @apply w-full border-b border-[var(--color-border-strong)] bg-transparent py-2 px-0 text-[var(--color-text-base)] placeholder:text-[var(--color-text-muted)] outline-none transition-all;
+        caret-color: var(--color-brand-primary);
     }
 
     .input-clean:focus {
-        @apply border-sky-600;
+        @apply border-[var(--color-brand-primary)];
     }
 
     .eye-btn {
-        @apply absolute right-0 top-2 text-gray-400 hover:text-sky-600 transition p-2;
+        @apply absolute right-0 top-2 text-[var(--color-text-muted)] hover:text-[var(--color-brand-primary)] transition p-2;
     }
 
     .btn-primary {
-        @apply bg-sky-600 text-white rounded-xl py-3 px-4 font-semibold shadow-md hover:bg-sky-700 active:scale-95 transition-transform w-full;
+        @apply bg-[var(--color-brand-primary)] text-white rounded-xl py-3 px-4 font-semibold shadow-md hover:bg-[var(--color-brand-hover)] active:scale-95 transition-all w-full disabled:opacity-50 disabled:cursor-not-allowed;
+    }
+
+    /* SaaS Dashboard specific components */
+    .card {
+        @apply bg-[var(--color-bg-surface)] border border-[var(--color-border-subtle)] rounded-2xl shadow-sm transition-all duration-200;
+    }
+
+    .card:hover {
+        @apply shadow-md border-[var(--color-border-strong)];
     }
 }
 
@@ -29,28 +93,10 @@
         Roboto, "Helvetica Neue", Arial;
 }
 
-/* Social button sizes handled by tailwind utilities; ensure img cover */
-img.object-cover {
-    object-fit: cover;
-    object-position: center;
-}
-
-/* Subtle drop shadow smoothing */
-.shadow-sm {
-    box-shadow: 0 6px 18px rgba(2, 6, 23, 0.06);
-}
-
 /* Focus accessibility */
 input:focus,
 button:focus {
     outline: 3px solid rgba(14, 165, 233, 0.12);
     outline-offset: 3px;
     border-radius: 8px;
-}
-
-/* Keep left heading single-line on large screens */
-@media (min-width: 1024px) {
-    .lg\:whitespace-nowrap {
-        white-space: nowrap;
-    }
 }

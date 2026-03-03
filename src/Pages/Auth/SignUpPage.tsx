@@ -1,13 +1,13 @@
 "use client";
 import { useState } from "react";
-import { SocialIcon } from "./SocialIcon";
+import { SocialIcon } from "../../Components/Auth/SocialIcon";
 import { motion } from "framer-motion";
 import { Eye, EyeOff, User, Mail, Lock } from "lucide-react";
 import { useNavigate } from "react-router";
-import AuthFormLayout from "./AuthFormLayout";
-import FormInput from "./FormInput";
-import AuthButton from "../Auth/AuthButton";
-import { registerUserAPI } from "../../Services/Auth";
+import AuthFormLayout from "../../Components/Auth/AuthFormLayout";
+import FormInput from "../../Components/Auth/FormInput";
+import AuthButton from "../../Components/Auth/AuthButton";
+import { registerUserAPI } from "../../Services/api";
 import toast from "react-hot-toast";
 
 export default function SignUpPage() {
@@ -15,12 +15,13 @@ export default function SignUpPage() {
     const [showPass2, setShowPass2] = useState(false);
     const [loading, setLoading] = useState<boolean | number>(false);
     const [formData, setFormData] = useState({
+        name: "",
         user_name: "",
         email: "",
         phone_no: "",
         password: "",
         confirmPassword: "",
-        gender: "male",
+        gender: "",
         about: "",
     });
     const [formErrors, setFormErrors] = useState<Record<string, string>>({});
@@ -28,13 +29,15 @@ export default function SignUpPage() {
 
     const validateField = (name: string, value: string) => {
         let error = "";
-        if (name === "user_name" && value.length < 2) error = "Name must be at least 2 characters";
+        if (name === "name" && value.length < 2) error = "Full Name must be at least 2 characters";
+        if (name === "user_name" && value.length < 3) error = "Username must be at least 3 characters";
         if (name === "email" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) error = "Invalid email format";
         if (name === "phone_no" && !/^\d{10}$/.test(value)) error = "Phone number must be exactly 10 digits";
         if (name === "password" && !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(value)) {
             error = "Password must be 8+ chars, with upper, lower, number, and special char";
         }
         if (name === "confirmPassword" && value !== formData.password) error = "Passwords do not match";
+        if (name === "gender" && !value) error = "Please select a gender";
 
         setFormErrors(prev => ({ ...prev, [name]: error }));
         return error === "";
@@ -45,12 +48,14 @@ export default function SignUpPage() {
     };
 
     const validateForm = () => {
+        const isFullNameValid = validateField("name", formData.name);
         const isNameValid = validateField("user_name", formData.user_name);
         const isEmailValid = validateField("email", formData.email);
         const isPhoneValid = validateField("phone_no", formData.phone_no);
         const isPassValid = validateField("password", formData.password);
         const isConfirmValid = validateField("confirmPassword", formData.confirmPassword);
-        return isNameValid && isEmailValid && isPhoneValid && isPassValid && isConfirmValid;
+        const isGenderValid = validateField("gender", formData.gender);
+        return isFullNameValid && isNameValid && isEmailValid && isPhoneValid && isPassValid && isConfirmValid && isGenderValid;
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -65,8 +70,8 @@ export default function SignUpPage() {
 
             // Build FormData
             const fData = new FormData();
-            fData.append("name", formData.user_name); // Mapping UI "Full Name" to 'name'
-            fData.append("user_name", formData.user_name.toLowerCase().replace(/\s+/g, ''));
+            fData.append("name", formData.name);
+            fData.append("user_name", formData.user_name);
             fData.append("email", formData.email);
             fData.append("phone_no", formData.phone_no);
             fData.append("password", formData.password);
@@ -132,14 +137,27 @@ export default function SignUpPage() {
                     <FormInput
                         label="Full Name"
                         type="text"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        error={formErrors.name}
+                        placeholder="Enter your full name"
+                        icon={User}
+                        delay={0.4}
+                    />
+
+                    <FormInput
+                        label="Username"
+                        type="text"
                         name="user_name"
                         value={formData.user_name}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         error={formErrors.user_name}
-                        placeholder="Enter your full name"
+                        placeholder="Choose a username"
                         icon={User}
-                        delay={0.4}
+                        delay={0.45}
                     />
 
                     <FormInput
@@ -179,13 +197,26 @@ export default function SignUpPage() {
                             <select
                                 name="gender"
                                 value={formData.gender}
-                                onChange={(e: any) => handleChange(e)}
-                                className="w-full py-3.5 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-3 focus:ring-blue-200 transition-all duration-200 outline-none bg-white px-4"
+                                onChange={(e: any) => {
+                                    handleChange(e);
+                                    validateField("gender", e.target.value);
+                                }}
+                                className={`w-full py-3.5 rounded-xl border ${formErrors.gender ? "border-red-500 focus:ring-red-200" : "border-gray-200 focus:border-blue-500 focus:ring-blue-200"} focus:ring-3 transition-all duration-200 outline-none bg-white px-4 ${!formData.gender ? "text-gray-400" : "text-gray-900"}`}
                             >
+                                <option value="" disabled>Select Gender</option>
                                 <option value="male">Male</option>
                                 <option value="female">Female</option>
                                 <option value="other">Other</option>
                             </select>
+                            {formErrors.gender && (
+                                <motion.p
+                                    initial={{ opacity: 0, y: -5 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    className="text-red-500 text-xs mt-1 absolute"
+                                >
+                                    {formErrors.gender}
+                                </motion.p>
+                            )}
                         </motion.div>
                     </div>
 

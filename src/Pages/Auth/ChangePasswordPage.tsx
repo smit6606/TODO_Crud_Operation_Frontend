@@ -3,10 +3,10 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Eye, EyeOff, Lock, ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router";
-import AuthFormLayout from "./AuthFormLayout";
-import FormInput from "./FormInput";
-import AuthButton from "../Auth/AuthButton";
-import { resetPasswordAPI } from "../../Services/Auth";
+import AuthFormLayout from "../../Components/Auth/AuthFormLayout";
+import FormInput from "../../Components/Auth/FormInput";
+import AuthButton from "../../Components/Auth/AuthButton";
+import { resetPasswordAPI } from "../../Services/api";
 import toast from "react-hot-toast";
 
 export default function ChangePasswordPage() {

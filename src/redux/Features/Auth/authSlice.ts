@@ -3,8 +3,12 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 
 interface User {
     id: number;
+    name?: string;
     user_name: string;
     email: string;
+    phone_no?: string;
+    gender?: string;
+    about?: string;
     profile_image: string | null;
 }
 
@@ -16,14 +20,17 @@ interface AuthState {
     rememberMe: boolean;
 }
 
-// Ensure localStorage access safely (useful for SSR setups if adapted)
-const getLocalStorageItem = (key: string) => {
-    try { return localStorage.getItem(key); } catch (e) { return null; }
+// Ensure sessionStorage access safely
+const getSessionStorageItem = (key: string) => {
+    try { return sessionStorage.getItem(key); } catch (e) { return null; }
 };
 
-const storedToken = getLocalStorageItem("token");
-const storedUser = getLocalStorageItem("user");
-const storedRememberMe = getLocalStorageItem("rememberMe") === "true";
+const storedToken = getSessionStorageItem("token");
+const storedUser = getSessionStorageItem("user");
+const storedRememberMe = (() => {
+    try { return localStorage.getItem("rememberMe") === "true"; }
+    catch { return false; }
+})();
 
 const initialState: AuthState = {
     mode: "login",
@@ -54,9 +61,9 @@ export const authSlice = createSlice({
                 state.rememberMe = rememberMe;
             }
 
-            // Strictly enforcing company-level local storage persistence
-            localStorage.setItem("token", token);
-            if (user) localStorage.setItem("user", JSON.stringify(user));
+            // Strictly enforcing company-level session storage persistence for privacy
+            sessionStorage.setItem("token", token);
+            if (user) sessionStorage.setItem("user", JSON.stringify(user));
         },
         logout: (state) => {
             state.user = null;
@@ -64,8 +71,8 @@ export const authSlice = createSlice({
             state.isAuthenticated = false;
             
             // Clean sweeping storage
-            localStorage.removeItem("token");
-            localStorage.removeItem("user");
+            sessionStorage.removeItem("token");
+            sessionStorage.removeItem("user");
             sessionStorage.removeItem("reset_email");
             sessionStorage.removeItem("reset_token");
         },

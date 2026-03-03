@@ -1,6 +1,6 @@
 import { Navigate, Outlet } from "react-router";
 import { useSelector } from "react-redux";
-import type { RootState } from "../../redux/store";
+import type { RootState } from "../redux/store";
 
 export default function PublicRoute() {
     const { isAuthenticated } = useSelector((state: RootState) => state.auth);

@@ -7,6 +7,7 @@ interface AuthButtonProps {
     onClick?: () => void;
     gradient?: "blue" | "green";
     loading?: boolean | number; // boolean for spinner, or number for progress 0-100
+    disabled?: boolean;
 }
 
 export default function AuthButton({
@@ -15,6 +16,7 @@ export default function AuthButton({
     onClick,
     gradient = "blue",
     loading = false,
+    disabled = false,
 }: AuthButtonProps) {
     const gradientClass =
         gradient === "blue"
@@ -30,8 +32,8 @@ export default function AuthButton({
             whileTap={{ scale: 0.98 }}
             type={type}
             onClick={onClick}
-            disabled={isLoaderActive}
-            className={`relative w-full overflow-hidden bg-gradient-to-r ${gradientClass} text-white py-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-200 ${isLoaderActive ? "cursor-not-allowed opacity-90" : ""
+            disabled={isLoaderActive || disabled}
+            className={`relative w-full overflow-hidden bg-gradient-to-r ${gradientClass} text-white py-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-200 ${(isLoaderActive || disabled) ? "cursor-not-allowed opacity-90 grayscale-[20%]" : ""
                 }`}
         >
             {/* The Range Loader specific effect underneath the text */}
