@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router";
-import { Mail, ArrowLeft } from "lucide-react";
+import { Mail } from "lucide-react";
 import AuthFormLayout from "../../Components/Auth/AuthFormLayout";
 import FormInput from "../../Components/Auth/FormInput";
 import AuthButton from "../../Components/Auth/AuthButton";
