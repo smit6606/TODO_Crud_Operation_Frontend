@@ -16,7 +16,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen w-full flex bg-[var(--color-bg-base)] transition-colors duration-200">
+    <div className="min-h-screen w-full flex flex-col md:flex-row bg-[var(--color-bg-base)] transition-colors duration-200">
 
       {/* If authenticated, Sidebar takes over navigation root handling */}
       {isAuthenticated && <Sidebar isOpen={isSidebarOpen} />}
