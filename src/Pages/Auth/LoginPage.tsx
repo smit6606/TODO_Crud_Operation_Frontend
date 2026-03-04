@@ -58,8 +58,8 @@ export default function LoginPage() {
                 animate={{ opacity: 1, y: 0 }}
                 className="text-center mb-8"
             >
-                <h1 className="text-2xl font-bold text-gray-900 mb-2">Welcome Back</h1>
-                <p className="text-gray-500 text-sm">
+                <h1 className="text-2xl font-bold text-[var(--color-text-base)] mb-2">Welcome Back</h1>
+                <p className="text-[var(--color-text-muted)] text-sm">
                     Sign in to your TaskHub account
                 </p>
             </motion.div>
@@ -69,7 +69,7 @@ export default function LoginPage() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
-                className="bg-white rounded-2xl p-8 shadow-xl border border-gray-100/80 backdrop-blur-sm"
+                className="bg-[var(--color-bg-surface)] rounded-2xl p-6 sm:p-8 shadow-xl border border-[var(--color-border-subtle)] backdrop-blur-sm"
             >
                 {/* Social Login */}
                 <div className="flex justify-center gap-3 mb-6">
@@ -80,10 +80,10 @@ export default function LoginPage() {
 
                 <div className="relative mb-6">
                     <div className="absolute inset-0 flex items-center">
-                        <div className="w-full border-t border-gray-200"></div>
+                        <div className="w-full border-t border-[var(--color-border-subtle)]"></div>
                     </div>
                     <div className="relative flex justify-center text-sm">
-                        <span className="px-3 bg-white text-gray-500">
+                        <span className="px-3 bg-[var(--color-bg-surface)] text-[var(--color-text-muted)]">
                             or continue with email
                         </span>
                     </div>
@@ -113,7 +113,7 @@ export default function LoginPage() {
                         onTogglePassword={
                             <button
                                 type="button"
-                                className="text-gray-400 hover:text-gray-600 transition-colors p-1 rounded-lg hover:bg-gray-100"
+                                className="text-[var(--color-text-muted)] hover:text-[var(--color-text-base)] transition-colors p-1 rounded-lg hover:bg-[var(--color-bg-elevated)]"
                                 onClick={() => setShowPass(!showPass)}
                             >
                                 {showPass ? <EyeOff size={18} /> : <Eye size={18} />}
@@ -128,9 +128,9 @@ export default function LoginPage() {
                                 type="checkbox"
                                 checked={rememberMe}
                                 onChange={(e) => setRememberMeCheck(e.target.checked)}
-                                className="w-4 h-4 text-blue-500 rounded border-gray-300 focus:ring-blue-200"
+                                className="w-4 h-4 text-[var(--color-brand-primary)] rounded border-[var(--color-border-strong)] focus:ring-[var(--color-brand-hover)]/20"
                             />
-                            <span className="ml-2 text-sm text-gray-600">Remember me</span>
+                            <span className="ml-2 text-sm text-[var(--color-text-muted)]">Remember me</span>
                         </label>
                         <button
                             type="button"
@@ -144,12 +144,12 @@ export default function LoginPage() {
                     <AuthButton loading={loading}>Sign In</AuthButton>
                 </form>
 
-                <div className="text-center mt-6 pt-6 border-t border-gray-100">
-                    <p className="text-gray-600 text-sm">
+                <div className="text-center mt-6 pt-6 border-t border-[var(--color-border-subtle)]">
+                    <p className="text-[var(--color-text-muted)] text-sm">
                         Don't have an account?{" "}
                         <button
                             onClick={() => navigate("/signup")}
-                            className="text-blue-600 font-semibold hover:text-blue-500 transition-colors"
+                            className="text-[var(--color-brand-primary)] font-semibold hover:text-[var(--color-brand-hover)] transition-colors"
                         >
                             Sign up
                         </button>

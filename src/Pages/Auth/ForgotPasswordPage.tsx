@@ -43,19 +43,17 @@ export default function ForgotPage() {
                 animate={{ opacity: 1, y: 0 }}
                 className="text-center mb-8"
             >
-                <h1 className="text-2xl font-bold text-gray-900 mb-2">
-                    Reset Your Password
-                </h1>
-                <p className="text-gray-500 text-sm">
-                    Enter your email and we'll send you a verification code
+                <h1 className="text-2xl font-bold text-[var(--color-text-base)] mb-2 mt-4">Reset Password</h1>
+                <p className="text-[var(--color-text-muted)] text-sm px-4">
+                    Enter your email to receive a password reset link
                 </p>
             </motion.div>
 
             <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-                className="bg-white rounded-2xl p-8 shadow-xl border border-gray-100/80 backdrop-blur-sm"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.4 }}
+                className="bg-[var(--color-bg-surface)] rounded-2xl p-6 sm:p-8 shadow-xl border border-[var(--color-border-subtle)] backdrop-blur-sm"
             >
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <FormInput
@@ -71,16 +69,14 @@ export default function ForgotPage() {
                     <AuthButton loading={loading}>Send Verification Code</AuthButton>
                 </form>
 
-                <div className="mt-8 pt-6 border-t border-gray-100 flex justify-center">
-                    <button
-                        type="button"
-                        onClick={() => navigate("/login")}
-                        className="group relative inline-flex items-center justify-center gap-2 px-8 py-3 text-sm font-bold text-gray-700 bg-white hover:bg-gray-50 border border-gray-200 rounded-xl transition-all duration-300 hover:shadow-lg hover:border-gray-300 active:scale-95 overflow-hidden"
-                    >
-                        <div className="absolute inset-0 bg-gradient-to-r from-blue-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                        <ArrowLeft className="w-4 h-4 text-gray-400 group-hover:text-blue-600 group-hover:-translate-x-1 transition-all duration-300 relative z-10" />
-                        <span className="relative z-10 group-hover:text-blue-700 transition-colors duration-300">Back to Login</span>
-                    </button>
+                <div className="text-center mt-6 pt-6 border-t border-[var(--color-border-subtle)]">
+                    <p className="text-[var(--color-text-muted)] text-sm">
+                        Remember your password?{" "}
+                        <button
+                            onClick={() => navigate("/login")}
+                            className="text-[var(--color-brand-primary)] font-semibold hover:text-[var(--color-brand-hover)] transition-colors"
+                        >Back to Login</button>
+                    </p>
                 </div>
             </motion.div>
         </AuthFormLayout>

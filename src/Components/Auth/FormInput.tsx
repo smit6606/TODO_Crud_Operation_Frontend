@@ -40,7 +40,7 @@ export default function FormInput({
             transition={{ delay }}
         >
             <div className="flex justify-between items-center mb-2">
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-medium text-[var(--color-text-base)]">
                     {label}
                 </label>
                 <AnimatePresence>
@@ -49,7 +49,7 @@ export default function FormInput({
                             initial={{ opacity: 0, y: -5 }}
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: -5 }}
-                            className="text-xs font-semibold text-red-500 bg-red-50 px-2 py-0.5 rounded-md"
+                            className="text-xs font-semibold text-red-500 bg-red-500/10 px-2 py-0.5 rounded-md"
                         >
                             {error}
                         </motion.span>
@@ -60,7 +60,7 @@ export default function FormInput({
             <div className="relative">
                 {Icon && (
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <Icon className={`h-5 w-5 transition-colors ${error ? "text-red-400" : "text-gray-400"}`} />
+                        <Icon className={`h-5 w-5 transition-colors ${error ? "text-red-400" : "text-[var(--color-text-muted)]"}`} />
                     </div>
                 )}
                 <input
@@ -69,9 +69,9 @@ export default function FormInput({
                     value={value}
                     onChange={onChange}
                     onBlur={onBlur}
-                    className={`w-full py-3.5 rounded-xl border transition-all duration-200 outline-none placeholder-gray-400 ${error
-                            ? "border-red-400 focus:border-red-500 focus:ring-3 focus:ring-red-200 bg-red-50/30"
-                            : "border-gray-200 focus:border-blue-500 focus:ring-3 focus:ring-blue-200 bg-white"
+                    className={`w-full py-3.5 rounded-xl border transition-all duration-200 outline-none text-[var(--color-text-base)] placeholder-[var(--color-text-muted)]/70 ${error
+                            ? "border-red-500 focus:border-red-500 focus:ring-3 focus:ring-red-500/20 bg-red-500/5"
+                            : "border-[var(--color-border-strong)] focus:border-[var(--color-brand-primary)] focus:ring-3 focus:ring-[var(--color-brand-hover)]/20 bg-[var(--color-bg-base)]"
                         } ${Icon ? "pl-10" : "px-4"} ${showPasswordToggle ? "pr-12" : "px-4"}`}
                     placeholder={placeholder}
                     required={required}

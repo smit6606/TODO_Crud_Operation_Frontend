@@ -105,16 +105,14 @@ export default function Header({ toggleSidebar }: HeaderProps) {
 
                     {/* Right Section: Theme + Profile/Auth */}
                     <div className="flex items-center gap-4">
-                        {/* Theme Toggle (Hidden on Auth Pages) */}
-                        {!isAuthPage && (
-                            <button
-                                onClick={toggleTheme}
-                                className="p-2 rounded-full text-[var(--color-text-muted)] hover:bg-[var(--color-bg-elevated)] hover:text-[var(--color-text-base)] transition-colors focus:outline-none"
-                                aria-label="Toggle Dark Mode"
-                            >
-                                {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
-                            </button>
-                        )}
+                        {/* Theme Toggle (Visible everywhere now) */}
+                        <button
+                            onClick={toggleTheme}
+                            className="p-2 rounded-full text-[var(--color-text-muted)] hover:bg-[var(--color-bg-elevated)] hover:text-[var(--color-text-base)] transition-colors focus:outline-none"
+                            aria-label="Toggle Dark Mode"
+                        >
+                            {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
+                        </button>
 
                         {/* Desktop Auth/Profile */}
                         <div className="hidden md:block">

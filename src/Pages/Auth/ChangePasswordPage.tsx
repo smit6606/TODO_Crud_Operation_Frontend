@@ -73,10 +73,10 @@ export default function ChangePasswordPage() {
                 >
                     <Lock className="w-8 h-8 text-green-500" />
                 </motion.div>
-                <h1 className="text-2xl font-bold text-gray-900 mb-2">
+                <h1 className="text-2xl font-bold text-[var(--color-text-base)] mb-2">
                     Create New Password
                 </h1>
-                <p className="text-gray-500 text-sm">
+                <p className="text-[var(--color-text-muted)] text-sm">
                     Your new password must be different from previous used passwords
                 </p>
             </motion.div>
@@ -85,7 +85,7 @@ export default function ChangePasswordPage() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
-                className="bg-white rounded-2xl p-8 shadow-xl border border-gray-100/80 backdrop-blur-sm"
+                className="bg-[var(--color-bg-surface)] rounded-2xl p-6 sm:p-8 shadow-xl border border-[var(--color-border-subtle)] backdrop-blur-sm"
             >
                 <form onSubmit={handleSubmit} className="space-y-5">
                     <FormInput
@@ -100,7 +100,7 @@ export default function ChangePasswordPage() {
                         onTogglePassword={
                             <button
                                 type="button"
-                                className="text-gray-400 hover:text-gray-600 transition-colors p-1 rounded-lg hover:bg-gray-100"
+                                className="text-[var(--color-text-muted)] hover:text-[var(--color-text-base)] transition-colors p-1 rounded-lg hover:bg-[var(--color-bg-elevated)]"
                                 onClick={() => setShowPass(!showPass)}
                             >
                                 {showPass ? <EyeOff size={18} /> : <Eye size={18} />}
@@ -121,7 +121,7 @@ export default function ChangePasswordPage() {
                         onTogglePassword={
                             <button
                                 type="button"
-                                className="text-gray-400 hover:text-gray-600 transition-colors p-1 rounded-lg hover:bg-gray-100"
+                                className="text-[var(--color-text-muted)] hover:text-[var(--color-text-base)] transition-colors p-1 rounded-lg hover:bg-[var(--color-bg-elevated)]"
                                 onClick={() => setShowPass2(!showPass2)}
                             >
                                 {showPass2 ? <EyeOff size={18} /> : <Eye size={18} />}
@@ -133,10 +133,10 @@ export default function ChangePasswordPage() {
                     <AuthButton loading={loading} gradient="green">Update Password</AuthButton>
                 </form>
 
-                <div className="text-center mt-6 pt-6 border-t border-gray-100">
+                <div className="text-center mt-6 pt-6 border-t border-[var(--color-border-subtle)]">
                     <button
                         onClick={() => navigate("/login")}
-                        className="text-blue-600 font-semibold hover:text-blue-500 transition-colors flex items-center justify-center gap-2"
+                        className="text-[var(--color-brand-primary)] font-semibold hover:text-[var(--color-brand-hover)] transition-colors flex items-center justify-center gap-2 mx-auto"
                     >
                         <ArrowLeft className="w-4 h-4" />
                         Back to Login

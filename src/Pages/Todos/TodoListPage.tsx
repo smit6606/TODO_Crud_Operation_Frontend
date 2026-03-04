@@ -96,8 +96,8 @@ export default function TodoListView() {
                     />
                 </div>
 
-                <div className="flex w-full md:w-auto items-center gap-3 overflow-x-auto pb-2 md:pb-0 scrollbar-hide">
-                    <div className="flex items-center gap-2 px-3 py-2 bg-[var(--color-bg-base)] border border-[var(--color-border-subtle)] rounded-xl shrink-0">
+                <div className="flex w-full md:w-auto items-center gap-3 overflow-x-auto pb-2 md:pb-0 scrollbar-hide flex-nowrap sm:flex-wrap">
+                    <div className="flex items-center gap-2 px-3 py-2 bg-[var(--color-bg-base)] border border-[var(--color-border-subtle)] rounded-xl shrink-0 min-w-max">
                         <Filter size={16} className="text-[var(--color-text-muted)]" />
                         <select
                             value={statusFilter}
@@ -111,7 +111,7 @@ export default function TodoListView() {
                         </select>
                     </div>
 
-                    <div className="flex items-center gap-2 px-3 py-2 bg-[var(--color-bg-base)] border border-[var(--color-border-subtle)] rounded-xl shrink-0">
+                    <div className="flex items-center gap-2 px-3 py-2 bg-[var(--color-bg-base)] border border-[var(--color-border-subtle)] rounded-xl shrink-0 min-w-max">
                         <Flag size={16} className="text-[var(--color-text-muted)]" />
                         <select
                             value={priorityFilter}
@@ -125,7 +125,7 @@ export default function TodoListView() {
                         </select>
                     </div>
 
-                    <div className="flex items-center gap-2 px-3 py-2 bg-[var(--color-bg-base)] border border-[var(--color-border-subtle)] rounded-xl shrink-0">
+                    <div className="flex items-center gap-2 px-3 py-2 bg-[var(--color-bg-base)] border border-[var(--color-border-subtle)] rounded-xl shrink-0 min-w-max">
                         <SortAsc size={16} className="text-[var(--color-text-muted)]" />
                         <select
                             value={sortBy}
@@ -189,10 +189,10 @@ export default function TodoListView() {
                                 >
                                     <div className="p-5 flex-1 border-b border-[var(--color-border-subtle)]/50">
                                         <div className="flex justify-between items-start mb-3">
-                                            <div className={`px-2.5 py-1 text-xs font-bold uppercase tracking-wider rounded-md border ${getPriorityColor(todo.priority)}`}>
+                                            <div className={`px-2.5 py-1 text-xs font-bold uppercase tracking-wider rounded-md border shrink-0 ${getPriorityColor(todo.priority)}`}>
                                                 {todo.priority}
                                             </div>
-                                            <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                            <div className="flex items-center gap-1 opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity">
                                                 {(todo.status || "").toLowerCase() !== 'completed' && (
                                                     <Link to={`/todos/${todo.id}/edit`} className="p-1.5 text-[var(--color-text-muted)] hover:text-[var(--color-brand-primary)] hover:bg-[var(--color-bg-base)] rounded-lg transition-colors inline-block">
                                                         <Edit2 size={16} />

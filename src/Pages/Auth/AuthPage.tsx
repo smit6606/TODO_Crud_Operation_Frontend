@@ -11,7 +11,7 @@ export default function AuthPage() {
   const path = location.pathname;
 
   return (
-    <div className="min-h-screen w-full flex bg-white font-inter overflow-hidden">
+    <div className="min-h-screen w-full flex bg-[var(--color-bg-base)] font-inter overflow-hidden transition-colors duration-200">
       {/* LEFT HERO - 40% - Fixed & Non-scrollable */}
       <div className="hidden lg:flex lg:w-2/5 fixed left-0 top-16 h-[calc(100vh-64px)]">
         <AuthLeftHero />

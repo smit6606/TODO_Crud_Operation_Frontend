@@ -38,8 +38,8 @@ export default function HomePage() {
 
     if (isAuthenticated) {
         return (
-            <div className="w-full max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-in fade-in duration-500 flex flex-col h-[calc(100vh-4rem)]">
-                <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+            <div className="w-full max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-8 animate-in fade-in duration-500 flex flex-col min-h-[calc(100vh-4rem)]">
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 md:mb-8 gap-4">
                     <div>
                         <h1 className="text-2xl font-bold text-[var(--color-text-base)] tracking-tight">
                             Welcome back, {user?.user_name || "User"}
@@ -58,9 +58,9 @@ export default function HomePage() {
                 </div>
 
                 {/* Dashboard Metric Cards */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
-                    <div className="card p-6 flex flex-col justify-between group hover:-translate-y-1 transition-transform cursor-default">
-                        <div className="flex items-center justify-between mb-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8 md:mb-10">
+                    <div className="card p-5 md:p-6 flex flex-col justify-between group hover:-translate-y-1 transition-transform cursor-default">
+                        <div className="flex items-center justify-between mb-3 md:mb-4">
                             <div className="p-3 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-xl group-hover:scale-110 transition-transform">
                                 <LayoutDashboard size={24} />
                             </div>
@@ -73,8 +73,8 @@ export default function HomePage() {
                         </div>
                     </div>
 
-                    <div className="card p-6 flex flex-col justify-between group hover:-translate-y-1 transition-transform cursor-default">
-                        <div className="flex items-center justify-between mb-4">
+                    <div className="card p-5 md:p-6 flex flex-col justify-between group hover:-translate-y-1 transition-transform cursor-default">
+                        <div className="flex items-center justify-between mb-3 md:mb-4">
                             <div className="p-3 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 rounded-xl group-hover:scale-110 transition-transform">
                                 <CheckCircle2 size={24} />
                             </div>
@@ -87,8 +87,8 @@ export default function HomePage() {
                         </div>
                     </div>
 
-                    <div className="card p-6 flex flex-col justify-between group hover:-translate-y-1 transition-transform cursor-default">
-                        <div className="flex items-center justify-between mb-4">
+                    <div className="card p-5 md:p-6 flex flex-col justify-between group hover:-translate-y-1 transition-transform cursor-default">
+                        <div className="flex items-center justify-between mb-3 md:mb-4">
                             <div className="p-3 bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400 rounded-xl group-hover:scale-110 transition-transform">
                                 <Clock size={24} />
                             </div>
@@ -101,8 +101,8 @@ export default function HomePage() {
                         </div>
                     </div>
 
-                    <div className="card p-6 flex flex-col justify-between group hover:-translate-y-1 transition-transform cursor-default">
-                        <div className="flex items-center justify-between mb-4">
+                    <div className="card p-5 md:p-6 flex flex-col justify-between group hover:-translate-y-1 transition-transform cursor-default">
+                        <div className="flex items-center justify-between mb-3 md:mb-4">
                             <div className="p-3 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 rounded-xl group-hover:scale-110 transition-transform">
                                 <ListTodo size={24} />
                             </div>
@@ -146,13 +146,13 @@ export default function HomePage() {
                         ) : (
                             <div className="w-full self-start space-y-3">
                                 {todos.slice(0, 5).map(todo => (
-                                    <div key={todo.id} className="flex items-center justify-between p-4 bg-[var(--color-bg-base)] border border-[var(--color-border-subtle)] rounded-xl hover:border-[var(--color-brand-primary)]/50 transition-colors">
-                                        <div className="flex items-center gap-3">
-                                            <div className={`w-2 h-2 rounded-full ${todo.status === 'Completed' ? 'bg-emerald-500' : todo.status === 'In Progress' ? 'bg-blue-500' : 'bg-slate-500'}`} />
-                                            <span className="font-semibold text-[var(--color-text-base)]">{todo.title}</span>
+                                    <div key={todo.id} className="flex flex-col sm:flex-row sm:items-center justify-between p-4 gap-3 bg-[var(--color-bg-base)] border border-[var(--color-border-subtle)] rounded-xl hover:border-[var(--color-brand-primary)]/50 transition-colors">
+                                        <div className="flex items-center gap-3 overflow-hidden">
+                                            <div className={`w-2 h-2 shrink-0 rounded-full ${todo.status === 'Completed' ? 'bg-emerald-500' : todo.status === 'In Progress' ? 'bg-blue-500' : 'bg-slate-500'}`} />
+                                            <span className="font-semibold text-[var(--color-text-base)] truncate">{todo.title}</span>
                                         </div>
-                                        <div className="flex items-center gap-3">
-                                            <span className={`text-xs font-bold px-2.5 py-1 rounded-md border ${todo.priority.toLowerCase() === 'high' ? 'bg-red-100 text-red-700 border-red-200 dark:bg-red-900/30 dark:border-red-800/50 dark:text-red-400' :
+                                        <div className="flex items-center sm:justify-end gap-3 self-start sm:self-auto ml-5 sm:ml-0">
+                                            <span className={`text-[10px] sm:text-xs font-bold px-2.5 py-1 rounded-md border shrink-0 ${todo.priority.toLowerCase() === 'high' ? 'bg-red-100 text-red-700 border-red-200 dark:bg-red-900/30 dark:border-red-800/50 dark:text-red-400' :
                                                 todo.priority.toLowerCase() === 'medium' ? 'bg-amber-100 text-amber-700 border-amber-200 dark:bg-amber-900/30 dark:border-amber-800/50 dark:text-amber-400' :
                                                     'bg-emerald-100 text-emerald-700 border-emerald-200 dark:bg-emerald-900/30 dark:border-emerald-800/50 dark:text-emerald-400'
                                                 }`}>

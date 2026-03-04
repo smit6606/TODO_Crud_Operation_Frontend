@@ -104,8 +104,8 @@ export default function SignUpPage() {
                 animate={{ opacity: 1, y: 0 }}
                 className="text-center mb-8"
             >
-                <h1 className="text-2xl font-bold text-gray-900 mb-2">Join TaskHub</h1>
-                <p className="text-gray-500 text-sm">
+                <h1 className="text-2xl font-bold text-[var(--color-text-base)] mb-2">Join TaskHub</h1>
+                <p className="text-[var(--color-text-muted)] text-sm">
                     Start your storytelling journey today
                 </p>
             </motion.div>
@@ -114,7 +114,7 @@ export default function SignUpPage() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
-                className="bg-white rounded-2xl p-8 shadow-xl border border-gray-100/80 backdrop-blur-sm"
+                className="bg-[var(--color-bg-surface)] rounded-2xl p-6 sm:p-8 shadow-xl border border-[var(--color-border-subtle)] backdrop-blur-sm"
             >
                 <div className="flex justify-center gap-3 mb-6">
                     <SocialIcon kind="google" />
@@ -124,10 +124,10 @@ export default function SignUpPage() {
 
                 <div className="relative mb-6">
                     <div className="absolute inset-0 flex items-center">
-                        <div className="w-full border-t border-gray-200"></div>
+                        <div className="w-full border-t border-[var(--color-border-subtle)]"></div>
                     </div>
                     <div className="relative flex justify-center text-sm">
-                        <span className="px-3 bg-white text-gray-500">
+                        <span className="px-3 bg-[var(--color-bg-surface)] text-[var(--color-text-muted)]">
                             or sign up with email
                         </span>
                     </div>
@@ -193,7 +193,7 @@ export default function SignUpPage() {
                             transition={{ delay: 0.58 }}
                             className="flex-1"
                         >
-                            <label className="block text-sm font-medium text-gray-700 mb-2">Gender</label>
+                            <label className="block text-sm font-medium text-[var(--color-text-base)] mb-2">Gender</label>
                             <select
                                 name="gender"
                                 value={formData.gender}
@@ -201,7 +201,7 @@ export default function SignUpPage() {
                                     handleChange(e);
                                     validateField("gender", e.target.value);
                                 }}
-                                className={`w-full py-3.5 rounded-xl border ${formErrors.gender ? "border-red-500 focus:ring-red-200" : "border-gray-200 focus:border-blue-500 focus:ring-blue-200"} focus:ring-3 transition-all duration-200 outline-none bg-white px-4 ${!formData.gender ? "text-gray-400" : "text-gray-900"}`}
+                                className={`w-full py-3.5 rounded-xl border ${formErrors.gender ? "border-red-500 focus:ring-red-200" : "border-[var(--color-border-strong)] focus:border-[var(--color-brand-primary)] focus:ring-[var(--color-brand-hover)]/20"} focus:ring-3 transition-all duration-200 outline-none bg-[var(--color-bg-base)] px-4 ${!formData.gender ? "text-[var(--color-text-muted)]" : "text-[var(--color-text-base)]"}`}
                             >
                                 <option value="" disabled>Select Gender</option>
                                 <option value="male">Male</option>
@@ -234,7 +234,7 @@ export default function SignUpPage() {
                         onTogglePassword={
                             <button
                                 type="button"
-                                className="text-gray-400 hover:text-gray-600 transition-colors p-1 rounded-lg hover:bg-gray-100"
+                                className="text-[var(--color-text-muted)] hover:text-[var(--color-text-base)] transition-colors p-1 rounded-lg hover:bg-[var(--color-bg-elevated)]"
                                 onClick={() => setShowPass(!showPass)}
                             >
                                 {showPass ? <EyeOff size={18} /> : <Eye size={18} />}
@@ -257,7 +257,7 @@ export default function SignUpPage() {
                         onTogglePassword={
                             <button
                                 type="button"
-                                className="text-gray-400 hover:text-gray-600 transition-colors p-1 rounded-lg hover:bg-gray-100"
+                                className="text-[var(--color-text-muted)] hover:text-[var(--color-text-base)] transition-colors p-1 rounded-lg hover:bg-[var(--color-bg-elevated)]"
                                 onClick={() => setShowPass2(!showPass2)}
                             >
                                 {showPass2 ? <EyeOff size={18} /> : <Eye size={18} />}
@@ -269,12 +269,12 @@ export default function SignUpPage() {
                     <AuthButton loading={loading}>Create Account</AuthButton>
                 </form>
 
-                <div className="text-center mt-6 pt-6 border-t border-gray-100">
-                    <p className="text-gray-600 text-sm">
+                <div className="text-center mt-6 pt-6 border-t border-[var(--color-border-subtle)]">
+                    <p className="text-[var(--color-text-muted)] text-sm">
                         Already have an account?{" "}
                         <button
                             onClick={() => navigate("/login")}
-                            className="text-blue-600 font-semibold hover:text-blue-500 transition-colors"
+                            className="text-[var(--color-brand-primary)] font-semibold hover:text-[var(--color-brand-hover)] transition-colors"
                         >
                             Sign in
                         </button>

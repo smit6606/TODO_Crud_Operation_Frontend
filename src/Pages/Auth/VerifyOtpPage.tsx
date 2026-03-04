@@ -175,10 +175,10 @@ export default function VerifyOtpPage() {
                 >
                     <KeyRound className="w-8 h-8 text-blue-500" />
                 </motion.div>
-                <h1 className="text-2xl font-bold text-gray-900 mb-2">
+                <h1 className="text-2xl font-bold text-[var(--color-text-base)] mb-2">
                     Verify Your Email
                 </h1>
-                <p className="text-gray-500 text-sm font-medium">
+                <p className="text-[var(--color-text-muted)] text-sm font-medium">
                     Enter the 6-digit code sent to {displayIdentifier()}
                 </p>
             </motion.div>
@@ -188,7 +188,7 @@ export default function VerifyOtpPage() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
-                className="bg-white rounded-2xl p-8 shadow-xl border border-gray-100/80 backdrop-blur-sm"
+                className="bg-[var(--color-bg-surface)] rounded-2xl p-6 sm:p-8 shadow-xl border border-[var(--color-border-subtle)] backdrop-blur-sm"
             >
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <motion.div
@@ -196,7 +196,7 @@ export default function VerifyOtpPage() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.4 }}
                     >
-                        <label className="block text-sm font-medium text-gray-700 mb-4 text-center">
+                        <label className="block text-sm font-medium text-[var(--color-text-base)] mb-4 text-center">
                             6-Digit Verification Code
                         </label>
                         <div className="flex justify-center gap-3">
@@ -211,7 +211,7 @@ export default function VerifyOtpPage() {
                                     value={digit}
                                     onChange={(e) => handleChange(e.target.value, index)}
                                     onKeyDown={(e) => handleKeyDown(e, index)}
-                                    className="w-12 h-12 text-center text-lg font-semibold rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 outline-none bg-white"
+                                    className={`w-12 h-12 text-center text-lg font-semibold rounded-xl border border-[var(--color-border-strong)] focus:border-[var(--color-brand-primary)] focus:ring-2 focus:ring-[var(--color-brand-hover)]/20 transition-all duration-200 outline-none bg-[var(--color-bg-base)] text-[var(--color-text-base)]`}
                                 />
                             ))}
                         </div>
@@ -228,14 +228,14 @@ export default function VerifyOtpPage() {
                     transition={{ delay: 0.6 }}
                     className="text-center mt-6 space-y-3"
                 >
-                    <div className="text-gray-600 text-sm flex flex-col gap-2">
+                    <div className="text-[var(--color-text-muted)] text-sm flex flex-col gap-2">
                         <div>
                             Didn't receive the code?{" "}
                             <button
                                 type="button"
                                 onClick={handleResend}
                                 disabled={timeLeft > 0}
-                                className={`font-semibold transition-colors ${timeLeft > 0 ? "text-gray-400 cursor-not-allowed" : "text-blue-600 hover:text-blue-500"
+                                className={`font-semibold transition-colors ${timeLeft > 0 ? "text-[var(--color-text-muted)]/50 cursor-not-allowed" : "text-[var(--color-brand-primary)] hover:text-[var(--color-brand-hover)]"
                                     }`}
                             >
                                 {timeLeft > 0 ? `Resend OTP in ${timeLeft}s` : "Resend OTP"}
@@ -246,7 +246,7 @@ export default function VerifyOtpPage() {
                                 type="button"
                                 onClick={handleTryAnotherWay}
                                 disabled={timeLeft > 0}
-                                className={`font-semibold transition-colors ${timeLeft > 0 ? "text-gray-400 cursor-not-allowed" : "text-blue-600 hover:text-blue-500"
+                                className={`font-semibold transition-colors ${timeLeft > 0 ? "text-[var(--color-text-muted)]/50 cursor-not-allowed" : "text-[var(--color-brand-primary)] hover:text-[var(--color-brand-hover)]"
                                     }`}
                             >
                                 Try another way (SMS)
@@ -256,7 +256,7 @@ export default function VerifyOtpPage() {
                     <button
                         type="button"
                         onClick={() => navigate("/forgot")}
-                        className="text-blue-600 font-semibold hover:text-blue-500 transition-colors flex items-center justify-center gap-2 text-sm"
+                        className="text-[var(--color-brand-primary)] font-semibold hover:text-[var(--color-brand-hover)] transition-colors flex items-center justify-center gap-2 text-sm"
                     >
                         <ArrowLeft className="w-4 h-4" />
                         Back to Forgot Password

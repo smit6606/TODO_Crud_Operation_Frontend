@@ -22,7 +22,7 @@ export default function App() {
       {isAuthenticated && <Sidebar isOpen={isSidebarOpen} />}
 
       {/* Main Content Area */}
-      <div className={`flex flex-col flex-1 min-w-0 transition-all duration-300 ${isAuthenticated && isSidebarOpen ? 'md:ml-64' : ''}`}>
+      <div className={`flex flex-col flex-1 min-w-0 transition-all duration-300 overflow-x-hidden ${isAuthenticated && isSidebarOpen ? 'md:ml-64' : ''}`}>
 
         {/* Global Header */}
         <Header toggleSidebar={isAuthenticated ? toggleSidebar : undefined} />
@@ -88,7 +88,7 @@ export default function App() {
           )}
         </Toaster>
 
-        <main className="grow flex flex-col w-full min-h-0 relative">
+        <main className="grow flex flex-col w-full min-h-0 relative overflow-x-hidden">
           <Outlet />
         </main>
 
