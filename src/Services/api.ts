@@ -112,7 +112,7 @@ export const fetchAllUsersAPI = async (token: string) => {
 };
 
 export const updateProfileAPI = async (formData: FormData, token: string) => {
-  return await userApi.put("/profile", formData, {
+  return await axios.put(`${API_BASE_URL}${ENDPOINTS.USER}/profile`, formData, {
     headers: {
       Authorization: `Bearer ${token}`
     },
