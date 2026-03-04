@@ -30,9 +30,7 @@ export const userApi = axios.create({
 // AUTHENTICATION APIs
 // ==========================================
 export const registerUserAPI = async (formData: FormData) => {
-  return await authApi.post("/register", formData, {
-    headers: { "Content-Type": "multipart/form-data" },
-  });
+  return await authApi.post("/register", formData);
 };
 
 export const loginUserAPI = async (data: Record<string, string>) => {
@@ -116,8 +114,7 @@ export const fetchAllUsersAPI = async (token: string) => {
 export const updateProfileAPI = async (formData: FormData, token: string) => {
   return await userApi.put("/profile", formData, {
     headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "multipart/form-data",
+      Authorization: `Bearer ${token}`
     },
   });
 };

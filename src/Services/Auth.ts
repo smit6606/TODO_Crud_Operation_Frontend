@@ -10,11 +10,7 @@ export const authApi = axios.create({
 
 // Since the backend accepts FormData for register (profile_image), and others use upload.none()
 export const registerUserAPI = async (formData: FormData) => {
-    return await authApi.post("/register", formData, {
-        headers: {
-            "Content-Type": "multipart/form-data",
-        },
-    });
+    return await authApi.post("/register", formData);
 };
 
 export const loginUserAPI = async (data: Record<string, string>) => {
