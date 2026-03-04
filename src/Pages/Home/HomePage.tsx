@@ -152,9 +152,9 @@ export default function HomePage() {
                                             <span className="font-semibold text-[var(--color-text-base)]">{todo.title}</span>
                                         </div>
                                         <div className="flex items-center gap-3">
-                                            <span className={`text-xs font-bold px-2.5 py-1 rounded-md border ${todo.priority.toLowerCase() === 'high' ? 'bg-red-100 text-red-600 border-red-200 dark:bg-red-900/30 dark:border-red-800/50 dark:text-red-400' :
-                                                todo.priority.toLowerCase() === 'medium' ? 'bg-amber-100 text-amber-600 border-amber-200 dark:bg-amber-900/30 dark:border-amber-800/50 dark:text-amber-400' :
-                                                    'bg-emerald-100 text-emerald-600 border-emerald-200 dark:bg-emerald-900/30 dark:border-emerald-800/50 dark:text-emerald-400'
+                                            <span className={`text-xs font-bold px-2.5 py-1 rounded-md border ${todo.priority.toLowerCase() === 'high' ? 'bg-red-100 text-red-700 border-red-200 dark:bg-red-900/30 dark:border-red-800/50 dark:text-red-400' :
+                                                todo.priority.toLowerCase() === 'medium' ? 'bg-amber-100 text-amber-700 border-amber-200 dark:bg-amber-900/30 dark:border-amber-800/50 dark:text-amber-400' :
+                                                    'bg-emerald-100 text-emerald-700 border-emerald-200 dark:bg-emerald-900/30 dark:border-emerald-800/50 dark:text-emerald-400'
                                                 }`}>
                                                 {todo.priority.charAt(0).toUpperCase() + todo.priority.slice(1)}
                                             </span>

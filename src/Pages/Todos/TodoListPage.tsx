@@ -56,16 +56,16 @@ export default function TodoListView() {
 
     const getPriorityColor = (p: string) => {
         const pLower = (p || "").toLowerCase();
-        if (pLower === "high") return "bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 border-red-200 dark:border-red-800/50";
-        if (pLower === "medium") return "bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400 border-amber-200 dark:border-amber-800/50";
-        return "bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800/50";
+        if (pLower === "high") return "bg-red-100 text-red-700 border-red-200 dark:bg-red-900/30 dark:text-red-400 dark:border-red-800/50";
+        if (pLower === "medium") return "bg-amber-100 text-amber-700 border-amber-200 dark:bg-amber-900/30 dark:text-amber-400 dark:border-amber-800/50";
+        return "bg-emerald-100 text-emerald-700 border-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-400 dark:border-emerald-800/50";
     };
 
     const getStatusColor = (s: string) => {
         const sLower = (s || "").toLowerCase();
-        if (sLower === "completed") return "bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400";
-        if (sLower === "in-progress" || sLower === "in progress") return "bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400";
-        return "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400";
+        if (sLower === "completed") return "bg-emerald-100 text-emerald-700 border border-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-400 dark:border-transparent";
+        if (sLower === "in-progress" || sLower === "in progress") return "bg-blue-100 text-blue-700 border border-blue-200 dark:bg-blue-900/30 dark:text-blue-400 dark:border-transparent";
+        return "bg-slate-100 text-slate-700 border border-slate-200 dark:bg-slate-800 dark:text-slate-400 dark:border-transparent";
     };
 
     return (
@@ -193,15 +193,10 @@ export default function TodoListView() {
                                                 {todo.priority}
                                             </div>
                                             <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                                                {(todo.status || "").toLowerCase() !== 'completed' ? (
+                                                {(todo.status || "").toLowerCase() !== 'completed' && (
                                                     <Link to={`/todos/${todo.id}/edit`} className="p-1.5 text-[var(--color-text-muted)] hover:text-[var(--color-brand-primary)] hover:bg-[var(--color-bg-base)] rounded-lg transition-colors inline-block">
                                                         <Edit2 size={16} />
                                                     </Link>
-                                                ) : (
-                                                    <div className="p-1.5 text-[var(--color-text-muted)] flex items-center gap-1.5 px-2 bg-[var(--color-bg-base)] rounded-lg border border-[var(--color-border-subtle)]" title="Completed tasks are locked">
-                                                        <Ban size={14} />
-                                                        <span className="text-[10px] font-bold uppercase tracking-wider">Locked</span>
-                                                    </div>
                                                 )}
                                                 <button onClick={() => handleDelete(todo.id)} className="p-1.5 text-[var(--color-text-muted)] hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 rounded-lg transition-colors ml-1">
                                                     <Trash2 size={16} />
