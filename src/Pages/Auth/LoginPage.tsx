@@ -17,11 +17,13 @@ export default function LoginPage() {
     const [loading, setLoading] = useState<boolean | number>(false);
     const [rememberMe, setRememberMeCheck] = useState(false);
     const [formData, setFormData] = useState({ email: "", password: "" });
+    const [error, setError] = useState("");
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        setError("");
         try {
             setLoading(true);
             const response = await loginUserAPI(formData);
@@ -38,9 +40,9 @@ export default function LoginPage() {
                 dispatch(setCredentials({ user, token, rememberMe }));
                 // Redirection will be handled by Router
             }
-        } catch (error: any) {
-            const errorMsg = error.response?.data?.message || "Invalid credentials";
-            toast.error(errorMsg);
+        } catch (err: any) {
+            const errorMsg = err.response?.data?.message || "Invalid credentials";
+            setError(errorMsg);
         } finally {
             setLoading(false);
         }
@@ -90,6 +92,11 @@ export default function LoginPage() {
                 </div>
 
                 <form onSubmit={handleSubmit} className="space-y-5">
+                    {error && (
+                        <div className="text-red-600 bg-red-50 dark:bg-red-900/20 dark:text-red-400 border border-red-200 dark:border-red-800/50 px-4 py-3 rounded-xl text-sm font-medium text-center transition-all animate-in fade-in">
+                            {error}
+                        </div>
+                    )}
                     <FormInput
                         label="Username, Email, or Phone"
                         type="text"

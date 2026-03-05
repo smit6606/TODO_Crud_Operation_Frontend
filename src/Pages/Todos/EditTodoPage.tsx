@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router";
-import { ArrowLeft, Check } from "lucide-react";
+import { ArrowLeft, Check, ChevronDown } from "lucide-react";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "../../redux/store";
@@ -27,11 +27,7 @@ export default function EditTodoPage() {
 
         const todoToEdit = todos.find(t => t.id === Number(id));
         if (todoToEdit) {
-            if ((todoToEdit.status || "").toLowerCase() === 'completed') {
-                toast.error("Completed tasks cannot be edited.");
-                navigate("/todos");
-                return;
-            }
+
             setFormData({
                 title: todoToEdit.title || "",
                 description: todoToEdit.description || "",
@@ -44,11 +40,7 @@ export default function EditTodoPage() {
                 const fetchedTodos = res.payload?.data || [];
                 const found = fetchedTodos.find((t: any) => t.id === Number(id));
                 if (found) {
-                    if ((found.status || "").toLowerCase() === 'completed') {
-                        toast.error("Completed tasks cannot be edited.");
-                        navigate("/todos");
-                        return;
-                    }
+
                     setFormData({
                         title: found.title || "",
                         description: found.description || "",
@@ -133,36 +125,40 @@ export default function EditTodoPage() {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pb-2">
                             <div>
                                 <label className="block text-sm font-semibold text-[var(--color-text-base)] mb-1.5">Operational Status</label>
-                                <div className="relative">
+                                <div className="relative group">
                                     <select
                                         name="status"
                                         value={formData.status}
                                         onChange={handleChange}
-                                        className="w-full px-4 py-3 bg-[var(--color-bg-base)] border border-[var(--color-border-subtle)] rounded-xl text-[var(--color-text-base)] appearance-none outline-none focus:border-[var(--color-brand-primary)] focus:ring-2 focus:ring-[var(--color-brand-primary)]/20 transition-all font-medium cursor-pointer"
+                                        className="w-full px-4 py-3 pr-10 bg-[var(--color-bg-base)] border border-[var(--color-border-subtle)] rounded-xl text-[var(--color-text-base)] appearance-none outline-none focus:border-[var(--color-brand-primary)] hover:border-[var(--color-border-strong)] focus:ring-2 focus:ring-[var(--color-brand-primary)]/20 transition-all font-medium cursor-pointer shadow-sm"
                                     >
                                         <option value="pending">Pending Validation</option>
                                         <option value="in-progress">Actively In Progress</option>
                                         <option value="completed">Completed Successfully</option>
                                     </select>
-                                    <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-[var(--color-text-muted)]">▼</div>
+                                    <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-[var(--color-text-muted)] group-hover:text-[var(--color-text-base)] transition-colors">
+                                        <ChevronDown size={18} />
+                                    </div>
                                 </div>
                             </div>
 
                             <div>
                                 <label className="block text-sm font-semibold text-[var(--color-text-base)] mb-1.5">Execution Priority <span className="text-red-500">*</span></label>
-                                <div className="relative">
+                                <div className="relative group">
                                     <select
                                         name="priority"
                                         value={formData.priority}
                                         onChange={handleChange}
-                                        className="w-full px-4 py-3 bg-[var(--color-bg-base)] border border-[var(--color-border-subtle)] rounded-xl text-[var(--color-text-base)] appearance-none outline-none focus:border-[var(--color-brand-primary)] focus:ring-2 focus:ring-[var(--color-brand-primary)]/20 transition-all font-medium cursor-pointer"
+                                        className="w-full px-4 py-3 pr-10 bg-[var(--color-bg-base)] border border-[var(--color-border-subtle)] rounded-xl text-[var(--color-text-base)] appearance-none outline-none focus:border-[var(--color-brand-primary)] hover:border-[var(--color-border-strong)] focus:ring-2 focus:ring-[var(--color-brand-primary)]/20 transition-all font-medium cursor-pointer shadow-sm"
                                     >
                                         <option value="" disabled>Select Priority</option>
                                         <option value="low">Low - Deferrable</option>
                                         <option value="medium">Medium - Standard</option>
                                         <option value="high">High - Mission Critical</option>
                                     </select>
-                                    <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-[var(--color-text-muted)]">▼</div>
+                                    <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-[var(--color-text-muted)] group-hover:text-[var(--color-text-base)] transition-colors">
+                                        <ChevronDown size={18} />
+                                    </div>
                                 </div>
                             </div>
                         </div>

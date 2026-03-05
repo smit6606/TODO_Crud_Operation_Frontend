@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router";
-import { ArrowLeft, Check } from "lucide-react";
+import { ArrowLeft, Check, ChevronDown } from "lucide-react";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "../../redux/store";
@@ -93,19 +93,21 @@ export default function AddTodoPage() {
 
                         <div>
                             <label className="block text-sm font-semibold text-[var(--color-text-base)] mb-1.5">Execution Priority <span className="text-red-500">*</span></label>
-                            <div className="relative w-full md:w-1/2">
+                            <div className="relative w-full md:w-1/2 group">
                                 <select
                                     name="priority"
                                     value={formData.priority}
                                     onChange={handleChange}
-                                    className="w-full px-4 py-3 bg-[var(--color-bg-base)] border border-[var(--color-border-subtle)] rounded-xl text-[var(--color-text-base)] appearance-none outline-none focus:border-[var(--color-brand-primary)] focus:ring-2 focus:ring-[var(--color-brand-primary)]/20 transition-all font-medium cursor-pointer"
+                                    className="w-full px-4 py-3 pr-10 bg-[var(--color-bg-base)] border border-[var(--color-border-subtle)] rounded-xl text-[var(--color-text-base)] appearance-none outline-none focus:border-[var(--color-brand-primary)] hover:border-[var(--color-border-strong)] focus:ring-2 focus:ring-[var(--color-brand-primary)]/20 transition-all font-medium cursor-pointer shadow-sm"
                                 >
                                     <option value="" disabled>Select Priority</option>
                                     <option value="low">Low - Deferrable</option>
                                     <option value="medium">Medium - Standard</option>
                                     <option value="high">High - Mission Critical</option>
                                 </select>
-                                <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-[var(--color-text-muted)]">▼</div>
+                                <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-[var(--color-text-muted)] group-hover:text-[var(--color-text-base)] transition-colors">
+                                    <ChevronDown size={18} />
+                                </div>
                             </div>
                         </div>
                     </div>

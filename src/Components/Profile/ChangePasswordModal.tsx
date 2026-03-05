@@ -21,6 +21,8 @@ export default function ChangePasswordModal({ isOpen, onClose }: Props) {
     const [loading, setLoading] = useState(false);
     const [showOldProps, setShowOldProps] = useState(false);
     const [showNewProps, setShowNewProps] = useState(false);
+    const [showConfirmProps, setShowConfirmProps] = useState(false);
+    const [errors, setErrors] = useState<Record<string, string>>({});
 
     const [formData, setFormData] = useState({
         oldPassword: "",
@@ -34,9 +36,10 @@ export default function ChangePasswordModal({ isOpen, onClose }: Props) {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        setErrors({});
 
         if (formData.newPassword !== formData.confirmPassword) {
-            toast.error("New passwords do not match.");
+            setErrors({ confirmPassword: "New passwords do not match." });
             return;
         }
 
@@ -53,8 +56,13 @@ export default function ChangePasswordModal({ isOpen, onClose }: Props) {
                 dispatch(logout());
                 navigate("/login");
             }
-        } catch (error: any) {
-            toast.error(error.response?.data?.message || "Failed to change password.");
+        } catch (err: any) {
+            const msg = err.response?.data?.message || "Failed to change password.";
+            if (msg.toLowerCase().includes("current") || msg.toLowerCase().includes("old") || msg.toLowerCase().includes("match")) {
+                setErrors({ oldPassword: msg });
+            } else {
+                setErrors({ global: msg });
+            }
         } finally {
             setLoading(false);
         }
@@ -92,8 +100,20 @@ export default function ChangePasswordModal({ isOpen, onClose }: Props) {
                         </div>
 
                         <form onSubmit={handleSubmit} className="p-6 space-y-5">
+                            {errors.global && (
+                                <div className="text-red-600 bg-red-50 dark:bg-red-900/20 dark:text-red-400 border border-red-200 dark:border-red-800/50 px-4 py-3 rounded-xl text-sm font-medium text-center transition-all animate-in fade-in">
+                                    {errors.global}
+                                </div>
+                            )}
                             <div className="space-y-2">
-                                <label className="text-sm font-semibold text-[var(--color-text-base)]">Current Password</label>
+                                <div className="flex justify-between items-center mb-1.5">
+                                    <label className="text-sm font-semibold text-[var(--color-text-base)]">Current Password</label>
+                                </div>
+                                {errors.oldPassword && (
+                                    <p className="text-sm font-medium text-red-600 bg-red-50 dark:bg-red-900/20 dark:text-red-400 px-3 py-2 rounded-lg border border-red-200 dark:border-red-800/50 mb-2 animate-in slide-in-from-top-1">
+                                        {errors.oldPassword}
+                                    </p>
+                                )}
                                 <div className="relative">
                                     <input
                                         type={showOldProps ? "text" : "password"}
@@ -102,7 +122,7 @@ export default function ChangePasswordModal({ isOpen, onClose }: Props) {
                                         onChange={handleChange}
                                         required
                                         placeholder="Enter current password"
-                                        className="w-full pl-4 pr-10 py-3 bg-[var(--color-bg-surface)] border border-[var(--color-border-subtle)] rounded-xl text-[var(--color-text-base)] rounded-xl focus:border-[var(--color-brand-primary)] focus:ring-2 focus:ring-[var(--color-brand-primary)]/20 outline-none transition-all"
+                                        className={`w-full pl-4 pr-10 py-3 bg-[var(--color-bg-surface)] border ${errors.oldPassword ? "border-red-500 focus:ring-red-200" : "border-[var(--color-border-subtle)] focus:border-[var(--color-brand-primary)] focus:ring-[var(--color-brand-primary)]/20"} rounded-xl text-[var(--color-text-base)] rounded-xl focus:ring-2 outline-none transition-all`}
                                     />
                                     <button
                                         type="button"
@@ -115,7 +135,14 @@ export default function ChangePasswordModal({ isOpen, onClose }: Props) {
                             </div>
 
                             <div className="space-y-2">
-                                <label className="text-sm font-semibold text-[var(--color-text-base)]">New Password</label>
+                                <div className="flex justify-between items-center mb-1.5">
+                                    <label className="text-sm font-semibold text-[var(--color-text-base)]">New Password</label>
+                                </div>
+                                {errors.newPassword && (
+                                    <p className="text-sm font-medium text-red-600 bg-red-50 dark:bg-red-900/20 dark:text-red-400 px-3 py-2 rounded-lg border border-red-200 dark:border-red-800/50 mb-2 animate-in slide-in-from-top-1">
+                                        {errors.newPassword}
+                                    </p>
+                                )}
                                 <div className="relative">
                                     <input
                                         type={showNewProps ? "text" : "password"}
@@ -124,7 +151,7 @@ export default function ChangePasswordModal({ isOpen, onClose }: Props) {
                                         onChange={handleChange}
                                         required
                                         placeholder="Create new password"
-                                        className="w-full pl-4 pr-10 py-3 bg-[var(--color-bg-surface)] border border-[var(--color-border-subtle)] rounded-xl text-[var(--color-text-base)] rounded-xl focus:border-[var(--color-brand-primary)] focus:ring-2 focus:ring-[var(--color-brand-primary)]/20 outline-none transition-all"
+                                        className={`w-full pl-4 pr-10 py-3 bg-[var(--color-bg-surface)] border ${errors.newPassword ? "border-red-500 focus:ring-red-200" : "border-[var(--color-border-subtle)] focus:border-[var(--color-brand-primary)] focus:ring-[var(--color-brand-primary)]/20"} rounded-xl text-[var(--color-text-base)] rounded-xl focus:ring-2 outline-none transition-all`}
                                     />
                                     <button
                                         type="button"
@@ -137,17 +164,31 @@ export default function ChangePasswordModal({ isOpen, onClose }: Props) {
                             </div>
 
                             <div className="space-y-2">
-                                <label className="text-sm font-semibold text-[var(--color-text-base)]">Confirm New Password</label>
+                                <div className="flex justify-between items-center mb-1.5">
+                                    <label className="text-sm font-semibold text-[var(--color-text-base)]">Confirm New Password</label>
+                                </div>
+                                {errors.confirmPassword && (
+                                    <p className="text-sm font-medium text-red-600 bg-red-50 dark:bg-red-900/20 dark:text-red-400 px-3 py-2 rounded-lg border border-red-200 dark:border-red-800/50 mb-2 animate-in slide-in-from-top-1">
+                                        {errors.confirmPassword}
+                                    </p>
+                                )}
                                 <div className="relative">
                                     <input
-                                        type={showNewProps ? "text" : "password"}
+                                        type={showConfirmProps ? "text" : "password"}
                                         name="confirmPassword"
                                         value={formData.confirmPassword}
                                         onChange={handleChange}
                                         required
                                         placeholder="Confirm new password"
-                                        className="w-full pl-4 pr-10 py-3 bg-[var(--color-bg-surface)] border border-[var(--color-border-subtle)] rounded-xl text-[var(--color-text-base)] rounded-xl focus:border-[var(--color-brand-primary)] focus:ring-2 focus:ring-[var(--color-brand-primary)]/20 outline-none transition-all"
+                                        className={`w-full pl-4 pr-10 py-3 bg-[var(--color-bg-surface)] border ${errors.confirmPassword ? "border-red-500 focus:ring-red-200" : "border-[var(--color-border-subtle)] focus:border-[var(--color-brand-primary)] focus:ring-[var(--color-brand-primary)]/20"} rounded-xl text-[var(--color-text-base)] rounded-xl focus:ring-2 outline-none transition-all`}
                                     />
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowConfirmProps(!showConfirmProps)}
+                                        className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--color-text-muted)] hover:text-[var(--color-text-base)]"
+                                    >
+                                        {showConfirmProps ? <EyeOff size={18} /> : <Eye size={18} />}
+                                    </button>
                                 </div>
                             </div>
 

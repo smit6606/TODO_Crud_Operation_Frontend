@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect } from "react";
 import { Link } from "react-router";
-import { Plus, Search, Filter, SortAsc, Edit2, Trash2, Calendar, Flag, CheckCircle2 } from "lucide-react";
+import { Plus, Search, Filter, SortAsc, Edit2, Trash2, Calendar, Flag, CheckCircle2, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "../../redux/store";
@@ -97,46 +97,61 @@ export default function TodoListView() {
                 </div>
 
                 <div className="flex w-full md:w-auto items-center gap-3 overflow-x-auto pb-2 md:pb-0 scrollbar-hide flex-nowrap sm:flex-wrap">
-                    <div className="flex items-center gap-2 px-3 py-2 bg-[var(--color-bg-base)] border border-[var(--color-border-subtle)] rounded-xl shrink-0 min-w-max">
-                        <Filter size={16} className="text-[var(--color-text-muted)]" />
+                    <div className="relative shrink-0 min-w-[170px] group">
+                        <div className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--color-text-muted)] group-hover:text-[var(--color-brand-primary)] transition-colors pointer-events-none">
+                            <Filter size={16} />
+                        </div>
                         <select
                             value={statusFilter}
                             onChange={(e) => setStatusFilter(e.target.value)}
-                            className="bg-transparent text-[var(--color-text-base)] text-sm font-medium focus:outline-none appearance-none pr-4 cursor-pointer"
+                            className="w-full appearance-none bg-[var(--color-bg-base)] text-[var(--color-text-base)] text-sm font-medium border border-[var(--color-border-subtle)] rounded-xl pl-9 pr-10 py-2.5 cursor-pointer outline-none hover:bg-[var(--color-bg-elevated)] hover:border-[var(--color-border-strong)] focus:border-[var(--color-brand-primary)] focus:ring-2 focus:ring-[var(--color-brand-primary)]/20 transition-all shadow-sm"
                         >
                             <option value="All">All Statuses</option>
                             <option value="Pending">Pending</option>
                             <option value="In Progress">In Progress</option>
                             <option value="Completed">Completed</option>
                         </select>
+                        <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-[var(--color-text-muted)] group-hover:text-[var(--color-brand-primary)] transition-colors">
+                            <ChevronDown size={16} />
+                        </div>
                     </div>
 
-                    <div className="flex items-center gap-2 px-3 py-2 bg-[var(--color-bg-base)] border border-[var(--color-border-subtle)] rounded-xl shrink-0 min-w-max">
-                        <Flag size={16} className="text-[var(--color-text-muted)]" />
+                    <div className="relative shrink-0 min-w-[150px] group">
+                        <div className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--color-text-muted)] group-hover:text-[var(--color-brand-primary)] transition-colors pointer-events-none">
+                            <Flag size={16} />
+                        </div>
                         <select
                             value={priorityFilter}
                             onChange={(e) => setPriorityFilter(e.target.value)}
-                            className="bg-transparent text-[var(--color-text-base)] text-sm font-medium focus:outline-none appearance-none pr-4 cursor-pointer"
+                            className="w-full appearance-none bg-[var(--color-bg-base)] text-[var(--color-text-base)] text-sm font-medium border border-[var(--color-border-subtle)] rounded-xl pl-9 pr-10 py-2.5 cursor-pointer outline-none hover:bg-[var(--color-bg-elevated)] hover:border-[var(--color-border-strong)] focus:border-[var(--color-brand-primary)] focus:ring-2 focus:ring-[var(--color-brand-primary)]/20 transition-all shadow-sm"
                         >
                             <option value="All">All Priorities</option>
                             <option value="High">High</option>
                             <option value="Medium">Medium</option>
                             <option value="Low">Low</option>
                         </select>
+                        <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-[var(--color-text-muted)] group-hover:text-[var(--color-brand-primary)] transition-colors">
+                            <ChevronDown size={16} />
+                        </div>
                     </div>
 
-                    <div className="flex items-center gap-2 px-3 py-2 bg-[var(--color-bg-base)] border border-[var(--color-border-subtle)] rounded-xl shrink-0 min-w-max">
-                        <SortAsc size={16} className="text-[var(--color-text-muted)]" />
+                    <div className="relative shrink-0 min-w-[180px] group">
+                        <div className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--color-text-muted)] group-hover:text-[var(--color-brand-primary)] transition-colors pointer-events-none">
+                            <SortAsc size={16} />
+                        </div>
                         <select
                             value={sortBy}
                             onChange={(e) => setSortBy(e.target.value)}
-                            className="bg-transparent text-[var(--color-text-base)] text-sm font-medium focus:outline-none appearance-none pr-4 cursor-pointer"
+                            className="w-full appearance-none bg-[var(--color-bg-base)] text-[var(--color-text-base)] text-sm font-medium border border-[var(--color-border-subtle)] rounded-xl pl-9 pr-10 py-2.5 cursor-pointer outline-none hover:bg-[var(--color-bg-elevated)] hover:border-[var(--color-border-strong)] focus:border-[var(--color-brand-primary)] focus:ring-2 focus:ring-[var(--color-brand-primary)]/20 transition-all shadow-sm"
                         >
                             <option value="Date">Sort by Date</option>
                             <option value="Priority (High to Low)">Priority (High - Low)</option>
                             <option value="Priority (Low to High)">Priority (Low - High)</option>
                             <option value="Status">Sort by Status</option>
                         </select>
+                        <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-[var(--color-text-muted)] group-hover:text-[var(--color-brand-primary)] transition-colors">
+                            <ChevronDown size={16} />
+                        </div>
                     </div>
                 </div>
             </div>
